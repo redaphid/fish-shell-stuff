@@ -1,7 +1,7 @@
-# Defined in /tmp/fish.TEo53O/bitcoin-address-checksum.fish @ line 2
+# Defined in /tmp/fish.WkyBIE/bitcoin-address-checksum.fish @ line 2
 function bitcoin-address-checksum --description 'verifies that the string is a bitcoin address' --argument addr
 
-	decho $addr
+	decho \n$addr
 	set addr_hex (echo $addr | base58 -d | base16 | string upper)
 
 	set -q addr_hex[1]; or return 1
