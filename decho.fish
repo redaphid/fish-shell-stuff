@@ -1,3 +1,4 @@
+# Defined in /tmp/fish.WrXkvc/decho.fish @ line 2
 function decho --wraps=echo --description 'echo to stderr'
    isatty stdin; or begin
         cat - | while read -l line
@@ -5,5 +6,5 @@ function decho --wraps=echo --description 'echo to stderr'
         end
   end; 
         set -a args $argv
-        hostname_color_text; echo $args 1>&2
+        echo $args 1>&2
 end
