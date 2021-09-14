@@ -1,16 +1,18 @@
-# Defined in /tmp/fish.QY6L5p/bak.fish @ line 2
+# Defined in /tmp/fish.EGyAFd/bak.fish @ line 2
 function bak --description 'renames a <file | folder> to <file | folder>.bak . the -u flag undoes this'
   argparse 'u/undo' -- $argv
-  set target $argv[1]
+  set file $argv[1]
 
-  string length "$target"; or begin
-    echo "filename not specified"
+  string length -q "$file"; or begin
+    echo "filename not specified! usage: bak <file | folder>"
     return 1
   end
 
+  set new_file (string join '.' $file'.bak')
+
   set -q _flag_undo; and begin;
-    string replace -r '.bak$' "" -- $target
-    return 0
+    set new_file (string replace -r '\.bak$' "" -- $file)
   end
-  string
+  
+ mv $file $new_file
 end
