@@ -1,11 +1,16 @@
-# Defined in /tmp/fish.bmTXZk/bak.fish @ line 2
-function bak --description 'renames a <file | folder> to <file | folder>.bak .' --argument target
-  argparse 'u/undo' -- "$argv"; 
-  
-  set -q _flag_undo; and begin;
-    echo "lets undo this biz"
-    echo "undo: $_flag_undo"
-    echo "target: $target"
-    string replace -r '.bak$' "" $target
+# Defined in /tmp/fish.QY6L5p/bak.fish @ line 2
+function bak --description 'renames a <file | folder> to <file | folder>.bak . the -u flag undoes this'
+  argparse 'u/undo' -- $argv
+  set target $argv[1]
+
+  string length "$target"; or begin
+    echo "filename not specified"
+    return 1
   end
+
+  set -q _flag_undo; and begin;
+    string replace -r '.bak$' "" -- $target
+    return 0
+  end
+  string
 end
