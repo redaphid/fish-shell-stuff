@@ -9,6 +9,6 @@ function if-internet-is-too-slow-restart
       sudo /usr/sbin/ethtool -s (network-names) speed 1000 duplex full autoneg off
 
     end
-    touch /tmp/too-slow-(date)
+    touch /tmp/too-slow
 end
 status is-interactive; or if-internet-is-too-slow-restart
