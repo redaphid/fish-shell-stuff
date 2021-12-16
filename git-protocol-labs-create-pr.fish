@@ -1,4 +1,4 @@
-# Defined in /tmp/fish.UFc0M2/git-protocol-labs-create-pr.fish @ line 2
+# Defined in /tmp/fish.gpubsU/git-protocol-labs-create-pr.fish @ line 2
 function git-protocol-labs-create-pr --argument issue issue_type
 	set -q issue_type[1]; or set issue_type "feat"
 	set issue_title (gh issue view $issue --json title --jq '.title')
