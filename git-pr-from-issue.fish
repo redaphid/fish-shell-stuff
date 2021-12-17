@@ -1,4 +1,10 @@
-function git-protocol-labs-create-pr --argument issue issue_type
+function git-pr-from-issue --argument issue --argument issue_type --description "Creates a feature branch and draft pr from an issue in github. Then links them together"
+        set -q issue[1]; or begin
+          echo "I need to know at least the issue # to set things up for ya"
+          echo "ex. git-pr-from-issue 4"
+          echo "try `gh issue list` to see the project issues"
+          return
+        end
 	set -q issue_type[1]; or set issue_type "feat"
 	set issue_title (gh issue view $issue --json title --jq '.title')
 	
