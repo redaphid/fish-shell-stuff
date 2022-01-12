@@ -4,6 +4,7 @@ yarn set version berry
 yarn init --workspace
 yarn add --dev jest typescript
 yarn add --dev ts-jest @types/jest
+yarn add --dev @types/node
 yarn ts-jest config:init
 yarn dlx @yarnpkg/sdks vscode
 npx npm-add-script -k "test" -v "jest"
