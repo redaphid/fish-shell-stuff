@@ -1,4 +1,4 @@
-# Defined in /home/redaphid/.config/fish/functions/hostname_color_text.fish @ line 2
+# Defined in /tmp/fish.quh75i/hostname_color_text.fish @ line 2
 function hostname_color_text
 	type -q pastel; or begin
 		echo "pastel isn't installed. no colors for you"
@@ -8,5 +8,5 @@ sudo dpkg -i pastel_0.8.1_amd64.deb"""
 return
 	end
 	set_color -b (hostname_color)
-	set_color (pastel format hex (pastel complement (hostname_color)))
+	set_color (pastel format hex (pastel textcolor (hostname_color)))
 end
