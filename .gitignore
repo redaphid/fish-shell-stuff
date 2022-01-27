@@ -41,6 +41,7 @@ fish_prompt.fish
 *.bak
 _nvm*
 nvm*
+!nvm_use.fish
 fish_prompt.fish
 __z
 __z*
