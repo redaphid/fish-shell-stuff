@@ -1,24 +1,26 @@
-# Defined in /tmp/fish.7MvCDN/typescript-init-project.fish @ line 2
 function typescript-init-project
 #!/usr/bin/env fish
-yarn set version berry
-yarn init
-yarn add --dev jest typescript
-yarn add --dev ts-jest @types/jest
-yarn add --dev @types/node
-yarn ts-jest config:init
-yarn dlx @yarnpkg/sdks vscode
+function error_die -a msg
+  echo "Error "$msg; and exit -1
+end
+
+nvm use 16; or error_die "couldn't set nvm version"
+npm init; or error_die "couldn't npm init"
+npm install --save-dev jest typescript ts-jest @types/jest @types/node; or error_die "couldn't install dev dependencies"
+npx  ts-jest config:init; or error_die "couldn't init ts-jest"
 npx npm-add-script -k "test" -v "jest"
 tsconfig-get > ./tsconfig.json
 gitignore-get > ./.gitignore
 eslintrc-get > ./.eslintrc
+
 mkdir src
 touch src/index.ts
 touch src/index.test.ts
+
 echo "
   test(\"Let's get things started\", ()=>{
     expect(true).toBe(false)
   })
 " > src/index.test.ts
-yarn test
+npm run test
 end
