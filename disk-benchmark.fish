@@ -1,4 +1,4 @@
-function disk-benchmark --argument NAME --argument SIZE --argument TIME
+function disk-benchmark --argument NAME SIZE TIME
 	function disk-test -a NAME -a FILE -a SIZE -a TIME -a TYPE
 		head -c "$SIZE" /dev/random > $FILE
 		sudo fio \
