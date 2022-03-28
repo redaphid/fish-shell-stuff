@@ -1,8 +1,9 @@
-function disk-benchmark --argument FILE SIZE TIME
-	function disk-test -a SIZE -a TIME -a TYPE
+function disk-benchmark --argument NAME --argument SIZE --argument TIME
+	function disk-test -a FILE -a SIZE -a TIME -a TYPE
+		head -c "$SIZE" /dev/random > $FILE
 		sudo fio \
 			--rw="$TYPE" \
-			--filename="test-data" \
+			--filename="$FILE" \
 			--size="$SIZE" \
 			--runtime="$TIME" \
 			--name="disk-benchmark-$SIZE-$TIME-$TYPE" \
@@ -14,6 +15,9 @@ function disk-benchmark --argument FILE SIZE TIME
 			--time_based \
 			--group_reporting \
 			--output-format="json"
+		rm $FILE
 	end
-	disk-test $SIZE $TIME randrw
+	mkdir $NAME
+	set FILE "$NAME/test-data"
+	disk-test $FILE $SIZE $TIME randrw
 end
