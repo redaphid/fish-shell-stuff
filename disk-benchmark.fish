@@ -1,8 +1,7 @@
 function disk-benchmark --argument NAME SIZE TIME
 	function disk-test -a NAME -a FILE -a SIZE -a TIME -a TYPE
 		head -c "$SIZE" /dev/random > $FILE
-		set TEST_NAME (string escape "$(fs-get-from-file $FILE)-$NAME-$SIZE-$TIME-$TYPE-$(date '+%s')")
-		echo $TEST_NAME
+		set TEST_NAME "$(fs-get-from-file $FILE)-$NAME-$SIZE-$TIME-$TYPE-$(date '+%s')"
 		sudo fio \
 			--rw="$TYPE" \
 			--filename="$FILE" \
@@ -17,7 +16,7 @@ function disk-benchmark --argument NAME SIZE TIME
 			--time_based \
 			--group_reporting \
 			--output-format="json" \
-			--output="$TEST_NAME.json"
+			--output="$NAME/$TEST_NAME.json"
 		rm $FILE
 	end
 	mkdir $NAME
