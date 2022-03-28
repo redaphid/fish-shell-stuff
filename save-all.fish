@@ -5,5 +5,6 @@ function save-all --argument prefix
  pushd ~/.config/fish/functions/
  git add "*.fish"
  git commit -am "save"
+ git push
  popd
 end
