@@ -1,12 +1,11 @@
 function disk-benchmark --argument FILE SIZE TIME
-	function disk-test -a FILE -a SIZE -a TIME -a TYPE
-		echo $FILE
+	function disk-test -a SIZE -a TIME -a TYPE
 		sudo fio \
 			--rw="$TYPE" \
-			--filename="$FILE" \
+			--filename="test-data" \
 			--size="$SIZE" \
 			--runtime="$TIME" \
-			--name="disk-benchmark-$FILE-$SIZE-$TIME-$TYPE" \
+			--name="disk-benchmark-$SIZE-$TIME-$TYPE" \
 			--direct=1 \
 			--bs=64k \
 			--ioengine=libaio \
@@ -16,5 +15,5 @@ function disk-benchmark --argument FILE SIZE TIME
 			--group_reporting \
 			--output-format="json"
 	end
-	disk-test $FILE $SIZE $TIME randrw
+	disk-test $SIZE $TIME randrw
 end
