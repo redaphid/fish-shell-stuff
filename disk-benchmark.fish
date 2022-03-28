@@ -1,3 +1,20 @@
 function disk-benchmark --argument FILE SIZE TIME
-sudo fio --filename=$FILE --size=$SIZE --direct=1 --rw=randrw --bs=4k --ioengine=libaio --iodepth=256 --runtime=$TIME --numjobs=4 --time_based --group_reporting --name=iops-test-job --eta-newline=1
+	echo $FILE $SIZE $TIME
+	function disk-test -a TYPE
+		echo "$TYPE"
+		sudo fio \
+			--rw="$TYPE" \
+			--filename="$FILE" \
+			--size="$SIZE" \
+			--runtime="$TIME" \
+			--name="whatever" \
+			--direct=1 \
+			--bs=64k \
+			--ioengine=libaio \
+			--iodepth=256 \
+			--numjobs=4 \
+			--time_based \
+			--group_reporting
+	end
+	disk-test randrw
 end
