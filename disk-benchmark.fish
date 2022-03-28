@@ -13,7 +13,8 @@ function disk-benchmark --argument FILE SIZE TIME
 			--iodepth=256 \
 			--numjobs=4 \
 			--time_based \
-			--group_reporting
+			--group_reporting \
+			--output-format="json"
 	end
 	disk-test $FILE $SIZE $TIME randrw
 end
