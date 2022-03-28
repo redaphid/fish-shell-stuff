@@ -1,12 +1,14 @@
 function disk-benchmark --argument NAME SIZE TIME
 	function disk-test -a NAME -a FILE -a SIZE -a TIME -a TYPE
 		head -c "$SIZE" /dev/random > $FILE
+		set TEST_NAME (string escape "$(fs-get-from-file $FILE)-$NAME-$SIZE-$TIME-$TYPE-$(date '+%s')")
+		echo $TEST_NAME
 		sudo fio \
 			--rw="$TYPE" \
 			--filename="$FILE" \
 			--size="$SIZE" \
 			--runtime="$TIME" \
-			--name="$NAME-$SIZE-$TIME-$TYPE" \
+			--name="$TEST_NAME" \
 			--direct=1 \
 			--bs=64k \
 			--ioengine=libaio \
@@ -14,7 +16,8 @@ function disk-benchmark --argument NAME SIZE TIME
 			--numjobs=4 \
 			--time_based \
 			--group_reporting \
-			--output-format="json"
+			--output-format="json" \
+			--output="$TEST_NAME.json"
 		rm $FILE
 	end
 	mkdir $NAME
