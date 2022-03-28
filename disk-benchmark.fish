@@ -1,12 +1,12 @@
 function disk-benchmark --argument NAME --argument SIZE --argument TIME
-	function disk-test -a FILE -a SIZE -a TIME -a TYPE
+	function disk-test -a NAME -a FILE -a SIZE -a TIME -a TYPE
 		head -c "$SIZE" /dev/random > $FILE
 		sudo fio \
 			--rw="$TYPE" \
 			--filename="$FILE" \
 			--size="$SIZE" \
 			--runtime="$TIME" \
-			--name="disk-benchmark-$SIZE-$TIME-$TYPE" \
+			--name="$NAME-$SIZE-$TIME-$TYPE" \
 			--direct=1 \
 			--bs=64k \
 			--ioengine=libaio \
@@ -19,5 +19,6 @@ function disk-benchmark --argument NAME --argument SIZE --argument TIME
 	end
 	mkdir $NAME
 	set FILE "$NAME/test-data"
-	disk-test $FILE $SIZE $TIME randrw
+	disk-test $NAME $FILE $SIZE $TIME randrw
+	disk-test $NAME $FILE $SIZE $TIME read
 end
