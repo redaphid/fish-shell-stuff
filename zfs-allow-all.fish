@@ -1,4 +1,4 @@
-# Defined in /tmp/fish.KmLzx0/zfs-allow-all.fish @ line 2
+# Defined in /tmp/fish.BwjLAe/zfs-allow-all.fish @ line 2
 function zfs-allow-all --description 'allows <user> all permissions to <dataset>' --argument user dataset
     #    for line in (zfs allow 2>&1 | grep '\Wproperty\W')
     #        set perm (echo $line | string replace 'property' '' | string trim)
@@ -11,6 +11,6 @@ function zfs-allow-all --description 'allows <user> all permissions to <dataset>
 	argparse -i 'a/all' -- $argv
     for line in (zfs allow 2>&1 | grep '\Wsubcommand\W')
         set perm (echo $line | string split 'subcommand' | string trim)[1]
-        zfs allow -u $user $perm $dataset
+        sudo zfs allow -u $user $perm $dataset
     end
 end
