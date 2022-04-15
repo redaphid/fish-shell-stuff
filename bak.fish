@@ -1,7 +1,8 @@
 function bak --description 'renames a <file | folder> to <file | folder>.bak . the -u flag undoes this'
   argparse "u/undo" -- $argv
   set file $argv[1]
-  test -f "$file"; or begin
+  set file (string trim -r -c "/" "$file")
+  test -e "$file"; or begin
     echo "$file doesn't exist. So I'm not gonna 'bak' it up"
     return 1
   end
