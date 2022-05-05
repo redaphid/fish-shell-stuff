@@ -8,4 +8,5 @@ function .env-to.envrc --description 'reads a .env file from <directory>, and ou
         string match -q '*=*' $l; or continue
         echo "export $l" >>$directory/.envrc
     end
+    echo "export D=$directory" >>$directory/.envrc
 end
