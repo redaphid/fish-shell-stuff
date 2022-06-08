@@ -7,12 +7,14 @@ function disk-benchmark --argument NAME SIZE TIME DIRECTORY
     set -q SIZE[1]; or set SIZE 10M
     set -q TIME[1]; or set TIME 60
 
-    function disk-test -a NAME -a FILE -a SIZE -a TIME -a TYPE
-        head -c "$SIZE" /dev/random >$FILE
-        set TEST_NAME "$(fs-get-from-file $FILE)-$NAME-$SIZE-$TIME-$TYPE-$(date '+%s')"
+    function disk-test -a DIRECTORY -a NAME -a SIZE -a TIME -a TYPE
+	set TMP_FILE $DIRECTORY/tmp.bin
+        head -c $SIZE /dev/random > $TMP_FILE
+        set TEST_NAME $NAME
+        echo $TEST_NAME
         fio \
             --rw="$TYPE" \
-            --filename="$FILE" \
+            --filename="$TMP_FILE" \
             --size="$SIZE" \
             --runtime="$TIME" \
             --name="$TEST_NAME" \
@@ -24,13 +26,11 @@ function disk-benchmark --argument NAME SIZE TIME DIRECTORY
             --time_based \
             --group_reporting \
             --output-format="json" \
-            --output="$NAME/$TEST_NAME.json"
+            --output="$DIRECTORY/$TEST_NAME.json"
+	rm $TMP_FILE
     end
     set DIRECTORY $DIRECTORY/(date -u +"%Y-%m-%d__%H-%M")
-    echo $DIRECTORY
-    return
     mkdir -p $DIRECTORY
-    set FILE "$DIRECTORY/test-data"
-    disk-test $NAME $FILE $SIZE $TIME randrw
-    disk-test $NAME $FILE $SIZE $TIME read
+    disk-test $DIRECTORY $NAME $SIZE $TIME randrw
+    disk-test $DIRECTORY $NAME $SIZE $TIME read
 end
