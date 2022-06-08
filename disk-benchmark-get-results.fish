@@ -1,5 +1,5 @@
 function disk-benchmark-get-results --argument DIRECTORY
-	for FILE in (find $DIRECTORY | grep .json)
-		cat $FILE | jq '.jobs | map({read:.read.io_bytes, write:.write.io_bytes})'
+	for f in (find $DIRECTORY | grep .json)		
+		cat $f | jq '.jobs | map({(.jobname):{read:.read.io_bytes, write:.write.io_bytes}}) | add'
 	end
 end
