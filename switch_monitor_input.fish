@@ -1,6 +1,6 @@
 function switch_monitor_input
                           while true
-                              sleep 10
+                              sleep 3
                               set has_das (lsusb | grep "Das Keyboard")
                               set -q has_das[1]; or begin
           echo "no das"
