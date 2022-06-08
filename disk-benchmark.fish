@@ -10,7 +10,7 @@ function disk-benchmark --argument NAME SIZE TIME DIRECTORY
     function disk-test -a DIRECTORY -a NAME -a SIZE -a TIME -a TYPE
 	set TMP_FILE $DIRECTORY/tmp.bin
         head -c $SIZE /dev/random > $TMP_FILE
-        set TEST_NAME $NAME
+        set TEST_NAME "$NAME-$TYPE.json"
         echo $TEST_NAME
         fio \
             --rw="$TYPE" \
