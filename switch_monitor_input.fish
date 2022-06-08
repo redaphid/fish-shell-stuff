@@ -1,19 +1,26 @@
 function switch_monitor_input
-                          set -q MONITOR_INPUT[1]; or begin
-                              echo "please set MONITOR_INPUT to the i2c input code you want to switch to (e.g. 15,17)"
-                              return
-                          end
-                          while true
-                              sleep 3
-                              set has_das (lsusb | grep "Das Keyboard")
-                              set -q has_das[1]; or begin
-                                  echo "no das"
-                                  continue
-                              end
-                              ssh mortal.local ddccontrol -r 0x60 dev:/dev/i2c-9 | grep $MONITOR_INPUT; and continue
-                              ssh mortal.local ddccontrol -r 0x60 -w $MONITOR_INPUT dev:/dev/i2c-9
-                              echo "switching input"
-                          end
+    set -q MONITOR_INPUT[1]; or begin
+        echo "please set MONITOR_INPUT to the i2c input code you want to switch to (e.g. 15,17)"
+        return
+    end
+    while true
+        sleep 3
 
-                      end
+        has_das; and begin
+            echo "has das"
+            ssh mortal.local ddccontrol -r 0x60 dev:/dev/i2c-9 2>/dev/null | grep $MONITOR_INPUT; and continue
+            ssh mortal.local ddccontrol -r 0x60 -w $MONITOR_INPUT dev:/dev/i2c-9
+            continue
+        end
+        ssh mumra.local has_das; and begin
+            echo "mumra has_das"
+            ssh mortal.local ddccontrol -r 0x60 dev:/dev/i2c-9 2>/dev/null | grep 17; and continue
+            ssh mortal.local ddccontrol -r 0x60 -w 17 dev:/dev/i2c-9
+            continue
+        end
+        ssh mortal.local ddccontrol -r 0x60 dev:/dev/i2c-9 2>/dev/null | grep 18; and continue
+        ssh mortal.local ddccontrol -r 0x60 -w 18 dev:/dev/i2c-9
 
+    end
+
+end
