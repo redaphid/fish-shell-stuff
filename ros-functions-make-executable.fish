@@ -8,20 +8,40 @@ function ros-functions-make-executable --argument directory
     for f in (find $ROS_FUNCTION_LOCATION | grep '.fish$')
         test -x $f; or continue
         set -l fn_name (string replace --regex '\.fish$' '' (basename $f))
+        echo "$fn_name is executable!"
+        test $fn_name[1] = _; and begin
+            echo "ignoring $fn_name as it begins with an _"
+            continue
+        end
+
         set -l body (cat $f)
+
         string match -q $shebang $body[1]; or begin
-            echo "$f has the wrong shebang" $body[1]
+            echo "adding shebang to $fn_name"
             set -p body $shebang
         end
+        set empty_line_regex "^\W+\$"
+        while string match --regex $empty_line_regex $body[-1]
+            set body $body[..-1]
+            echo $body
+        end
+        return
         set good_footer "status is-interactive; or $fn_name \$argv"
         set fn_footer $body[-1]
+        string match -q -r '^\s+$' $fn_footer; and begin
+            echo "$fn_footer is empty"
+        end
+
         string match -q $good_footer $fn_footer; or begin
             string match -rq "end|return" $fn_footer; or begin
                 echo "Not sure what the end of this function is, but I don't want to risk anything. Aborting."
             end
-            echo "we can work with $fn_footer"
+            echo "I'm gonna add a footer to $fn_name"
             set -a body $good_footer
-
+        end
+        printf "\nAight. This is what this new fn would look like:\n"
+        for l in $body
+            printf '\t'$l'\n'
         end
     end
 end
