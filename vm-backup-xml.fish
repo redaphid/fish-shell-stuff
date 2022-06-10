@@ -1,3 +1,4 @@
+#!/usr/bin/env fish
 function vm-backup-xml --argument backup_directory
 	set -q backup_directory[1]; or set backup_directory $ROS_VM_LOCATION
 	set -q backup_directory[1]; or begin
