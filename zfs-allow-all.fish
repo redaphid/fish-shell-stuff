@@ -1,3 +1,4 @@
+#!/usr/bin/env fish
 function zfs-allow-all --description 'allows <user> all permissions to <dataset>' --argument user dataset
     #    for line in (zfs allow 2>&1 | grep '\Wproperty\W')
     #        set perm (echo $line | string replace 'property' '' | string trim)
@@ -13,3 +14,4 @@ function zfs-allow-all --description 'allows <user> all permissions to <dataset>
         sudo zfs allow -u $user $perm $dataset
     end
 end
+status is-interactive; or zfs-allow-all $argv
