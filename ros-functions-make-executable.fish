@@ -7,6 +7,9 @@ function ros-functions-make-executable --argument directory
     set -l shebang "#!/usr/bin/env fish"
     for f in (find $ROS_FUNCTION_LOCATION | grep '.fish$')
         test -x $f; or continue
+        echo (basename $f)
+        set -l fn_name (string replace --regex '\.fish$' '' (basename $f))
+        echo $fn_name; and return
         set -l body (cat $f)
         string match -q $shebang $body[1]; or begin
             echo "$f has the wrong shebang" $body[1]
