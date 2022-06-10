@@ -20,29 +20,31 @@ function ros-functions-make-executable --argument directory
             echo "adding shebang to $fn_name"
             set -p body $shebang
         end
-        #string match --entire --regex "^[\s]+" 
+
         while string match --entire --regex "^[\s]+" $body[-1]; or test $body[-1] = ''
             echo "last line was whitespace ($body[-1])"
             set body $body[..-2]
         end
 
         set good_footer "status is-interactive; or $fn_name \$argv"
+        set good_footer_regex "^status is-interactive; .*\$"
         set fn_footer $body[-1]
 
-        echo "footer: $fn_footer"
-
-        string match -q $good_footer $fn_footer; or begin
+        string match -q --regex $good_footer_regex $fn_footer; or begin
             string match --regex "return|end" $fn_footer; or begin
                 echo "aborting due to weird footer: $fn_footer"
                 continue
             end
             set -a body $good_footer
         end
+
         set -a body \n
         printf "\nAight. This is what this new fn would look like:\n\n"
+
         echo $body[1]
         for l in $body[2..]
             printf $l'\n'
         end
+
     end
 end
