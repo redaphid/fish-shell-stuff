@@ -20,9 +20,10 @@ function ros-save
         funcsave --directory $save_dir $f
         git add "$f.fish"
         set -Ua ROS_SAVED_FUNCTIONS $f
+        echo "ROS_SAVED_FUNCTIONS: $ROS_SAVED_FUNCTIONS"
     end
     git commit -m "functions: $fns"
     git push
-    set -U ROS_SAVED_FUNCTIONS (string collect $ROS_FUNCTIONS | sort)
+    set -U ROS_SAVED_FUNCTIONS (string collect $ROS_SAVED_FUNCTIONS | sort | uniq)
     popd
 end
