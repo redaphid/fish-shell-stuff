@@ -51,6 +51,5 @@ function ros-functions-make-executable --argument directory
         for l in $body
             echo $l >> $f
         end
-        return
     end
 end
