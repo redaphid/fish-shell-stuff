@@ -38,7 +38,6 @@ function ros-functions-make-executable --argument directory
             set -a body $good_footer
         end
 
-        set -a body \n
         printf "\nAight. This is what this new fn would look like:\n\n"
         echo $body[1]
         for l in $body[2..]
