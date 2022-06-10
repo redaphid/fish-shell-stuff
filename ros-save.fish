@@ -8,8 +8,7 @@ function ros-save
     set fns $argv
     set -q ROS_SAVE_ALL_FUNCTIONS[1]; and begin
         set fns -a (string split ' ' $ROS_SAVED_FUNCTIONS)
-        echo $fns
-        return
+        echo "saving all known functions re: ros, + the others you specified ($argv)"
     end
     set -q fns[1]; or begin
         echo "pls specify the functions you wish to save. e.g. `ros-save hello_world`"
@@ -24,7 +23,6 @@ function ros-save
         funcsave --directory $save_dir $f
         git add "$f.fish"
         set -Ua ROS_SAVED_FUNCTIONS $f
-        echo "ROS_SAVED_FUNCTIONS: $ROS_SAVED_FUNCTIONS"
     end
     git commit -m "functions: $fns"
     git push
