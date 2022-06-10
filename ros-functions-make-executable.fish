@@ -20,8 +20,9 @@ function ros-functions-make-executable --argument directory
             echo "adding shebang to $fn_name"
             set -p body $shebang
         end
-        set empty_line_regex "^\W+\$"
-        while string match --regex $empty_line_regex $body[-1]
+        #string match --entire --regex "^[\s]+" 
+        while string match --entire --regex "^[\s]+" $body[-1]
+            echo "last line was whitespace ($body[-1])"
             set body $body[..-1]
             echo $body
         end
