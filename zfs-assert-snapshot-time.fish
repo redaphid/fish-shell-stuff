@@ -25,5 +25,5 @@ function zfs-assert-snapshot-time --argument dataset max_age
 
     set latest_snapshot_time $sorted_times[-1]
     set how_long_since_snap (math "$now_epoch - $latest_snapshot_time")
-    test $how_long_since_snap -le $max_age; or echo "we are in trouble"
+    return (test $how_long_since_snap -le $max_age)
 end
