@@ -19,7 +19,7 @@ function ros-save
     for f in $argv
         funcsave --directory $save_dir $f
         git add "$f.fish"
-        set -a ROS_SAVED_FUNCTIONS $f
+        set -Ua ROS_SAVED_FUNCTIONS $f
     end
     git commit -m "functions: $fns"
     git push
