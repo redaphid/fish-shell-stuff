@@ -20,7 +20,7 @@ function ros-save
 
     for f in $fns
         echo "saving $f"
-        funcsave --directory $save_dir $f
+        funcsave --quiet --directory $save_dir $f
         git add "$f.fish"
         set -Ua ROS_SAVED_FUNCTIONS $f
     end
