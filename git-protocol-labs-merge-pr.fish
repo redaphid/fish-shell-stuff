@@ -1,4 +1,3 @@
-# Defined in /tmp/fish.bbZis9/git-protocol-labs-merge-pr.fish @ line 2
 function git-protocol-labs-merge-pr
 	set branch_name (git branch --show-current)
 	echo $branch_name

@@ -1,4 +1,4 @@
-function git-pr-from-issue --argument issue --argument issue_type --description "Creates a feature branch and draft pr from an issue in github. Then links them together"
+function git-pr-from-issue --description 'Creates a feature branch and draft pr from an issue in github. Then links them together' --argument issue issue_type
         set -q issue[1]; or begin
           echo "I need to know at least the issue # to set things up for ya"
           echo "ex. git-pr-from-issue 4"

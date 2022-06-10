@@ -1,4 +1,3 @@
-# Defined in /tmp/fish.BA5HP6/drives-copy-old-pata.fish @ line 2
 function drives-copy-old-pata --description 'copies very old pata data' --argument disk dest
 	echo disk: $disk dest: $dest
 	set -q disk[1]; or begin; echo "disk is required"; return 1; end

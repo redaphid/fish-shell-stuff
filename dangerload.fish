@@ -1,5 +1,4 @@
-#!/usr/bin/env fish
-function dangerload -v PWD --description "dangerously sources whatever's in ./scripts/dangerload.fish"
+function dangerload --description dangerously\ sources\ whatever\'s\ in\ ./scripts/dangerload.fish --on-variable PWD
     set include_file ./scripts/dangerload.fish
     dangerunload    
 
@@ -43,16 +42,4 @@ $old_func_footer
         "
         eval $new_func
     end
-end
-
-function dangerunload
-    echo -n "dangerload: "
-    for f in $_dls_new_functions
-        echo -n " -$f"
-        functions --erase $f
-    end
-end
-
-function dls
-    echo $_dls_new_functions
 end

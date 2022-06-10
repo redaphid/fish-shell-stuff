@@ -1,4 +1,3 @@
-# Defined in /tmp/fish.4fEc2x/redaphid_setup_fish.fish @ line 1
 function redaphid_setup_fish
     #omf
     curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish

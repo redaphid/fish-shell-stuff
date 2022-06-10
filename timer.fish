@@ -1,4 +1,3 @@
-# Defined in /tmp/fish.0Y9yL4/timer.fish @ line 2
 function timer --argument time msg
 sleep $time
 set -q msg[1]; or set msg "TIMER"

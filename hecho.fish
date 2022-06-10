@@ -1,4 +1,3 @@
-# Defined in /tmp/fish.agJkiD/hecho.fish @ line 2
 function hecho --wraps=echo --description 'Trim new lines and copy to clipboard'
    isatty stdin; or begin
 	cat - | while read -l line

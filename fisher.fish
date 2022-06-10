@@ -1,4 +1,4 @@
-function fisher --argument-names cmd --description "A plugin manager for Fish"
+function fisher --description 'A plugin manager for Fish' --argument cmd
     set --query fisher_path || set --local fisher_path $__fish_config_dir
     set --local fisher_version 4.3.0
     set --local fish_plugins $__fish_config_dir/fish_plugins
@@ -194,16 +194,4 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
         case \*
             echo "fisher: Unknown command: \"$cmd\"" >&2 && return 1
     end
-end
-
-## Migrations ##
-function _fisher_fish_postexec --on-event fish_postexec
-    if functions --query _fisher_list
-        fisher update >/dev/null 2>/dev/null
-        set --query XDG_DATA_HOME || set --local XDG_DATA_HOME ~/.local/share
-        test -e $XDG_DATA_HOME/fisher && command rm -rf $XDG_DATA_HOME/fisher
-        functions --erase _fisher_list _fisher_plugin_parse
-        set --erase fisher_data
-    end
-    functions --erase _fisher_fish_postexec
 end

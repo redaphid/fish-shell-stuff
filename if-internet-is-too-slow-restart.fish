@@ -1,4 +1,3 @@
-#!/usr/bin/env fish
 function if-internet-is-too-slow-restart
     set -l minimum_speed 200
     set -l raw_internet_speed (speedtest --json | jq '.download')
@@ -11,4 +10,3 @@ function if-internet-is-too-slow-restart
     end
     touch /tmp/too-slow
 end
-status is-interactive; or if-internet-is-too-slow-restart

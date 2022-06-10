@@ -1,4 +1,3 @@
-# Defined in /tmp/fish.quh75i/hostname_color_text.fish @ line 2
 function hostname_color_text
 	type -q pastel; or begin
 		echo "pastel isn't installed. no colors for you"

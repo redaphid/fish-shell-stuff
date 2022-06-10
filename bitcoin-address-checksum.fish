@@ -1,4 +1,3 @@
-# Defined in /tmp/fish.itZ79r/bitcoin-address-checksum.fish @ line 2
 function bitcoin-address-checksum --description 'verifies that the string is a bitcoin address' --argument addr
 	decho "~"
 	decho
