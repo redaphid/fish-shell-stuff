@@ -19,7 +19,7 @@ function ros-save
     pushd $save_dir
 
     for f in $fns
-        funcsave --quiet --directory $save_dir $f
+        funcsave --quiet --directory $save_dir "$f"
         git add "$f.fish"
         set -Ua ROS_SAVED_FUNCTIONS $f
     end
