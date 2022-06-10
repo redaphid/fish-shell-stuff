@@ -1,3 +1,4 @@
+#!/usr/bin/env fish
 function switch_monitor_input
     set -q MONITOR_INPUT[1]; or begin
         echo "please set MONITOR_INPUT to the i2c input code you want to switch to (e.g. 15,17)"
@@ -24,3 +25,4 @@ function switch_monitor_input
     end
 
 end
+status is-interactive; or switch_monitor_input $argv
