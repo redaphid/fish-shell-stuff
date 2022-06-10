@@ -20,6 +20,6 @@ function zfs-assert-snapshot-time --argument dataset max_age
         set -a snapshot_times (date --date="$snap_date" +"%s")
     end
     for t in (string collect $snapshot_times | sort -z)
-        echo date --date="$t" -u
+        date --date="@$t" -u
     end
 end
