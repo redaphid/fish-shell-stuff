@@ -4,12 +4,16 @@ function ros-functions-make-executable --argument directory
         echo "I'm not sure what directory to check the functions in"
         return 1
     end
-
+    set -l shebang "#!/usr/bin/env fish"
     for f in (find $ROS_FUNCTION_LOCATION | grep '.fish$')
         test -x $f; or continue
-        set body (cat $f)
-        string match -q "#!/usr/bin/env fish" $body[1]; or begin
-            echo "$f is wrong." $body[1]
+        set -l body (cat $f)
+        string match -q $shebang $body[1]; or begin
+            echo "$f has the wrong shebang" $body[1]
+            set -p body $shebang
+            for l in $body
+                echo $l
+            end
         end
     end
 end
