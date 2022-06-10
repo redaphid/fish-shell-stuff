@@ -6,7 +6,11 @@ function ros-save
         return 1
     end
     set fns $argv
-    set -q fns[1]; or set fns $ROS_SAVE_FUNCTIONS
+    set -q ROS_ALWAYS_SAVE_ALL_FUNCTIONS[1]; and begin
+        set fns -a (string split ' ' $ROS_SAVED_FUNCTIONS)
+        echo $fns
+        return
+    end
     set -q fns[1]; or begin
         echo "pls specify the functions you wish to save. e.g. `ros-save hello_world`"
         echo "or specify ROS_SAVE_FUNCTIONS in the environment somewhere"
