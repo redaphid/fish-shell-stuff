@@ -40,11 +40,16 @@ function ros-functions-make-executable --argument directory
 
         set -a body \n
         printf "\nAight. This is what this new fn would look like:\n\n"
-
         echo $body[1]
         for l in $body[2..]
             printf $l'\n'
         end
-
+        read --prompt-str "make $f executable? (y/n) " --line answer
+        test $answer[1] = y; or continue
+        echo "aight we're gonna do it now"
+        for l in $body
+            echo $l >>$f.fish
+        end
+        return
     end
 end
