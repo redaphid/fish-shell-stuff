@@ -10,11 +10,11 @@ function zfs-allow-all --description 'allows <user> all permissions to <dataset>
 	set -q found_beginning[1]; or continue
 	echo $line | grep -q '[[:space:]]\(subcommand\|property\)[[:space:]]'; or continue
         set perm (string split --no-empty ' ' $line)[1]
+	echo zfs allow -u $user $perm $dataset
 	string match -q -r '^y' $dry_run[1]; and begin 
-		echo zfs allow -r -u $user $perm $dataset
 		continue
 	end
 	set perm (string split --no-empty ' ' $line)[1]
-	echo zfs allow -r -u $user $perm $dataset
+	sudo zfs allow -u $user $perm $dataset
     end
 end
