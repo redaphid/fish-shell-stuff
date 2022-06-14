@@ -20,7 +20,7 @@ function switch_monitor_input
         end
         ssh mortal.local ddccontrol -r 0x60 dev:$MONITOR_INPUT 2>/dev/null | grep 18; and continue
         ssh mortal.local ddccontrol -r 0x60 -w 18 dev:$MONITOR_INPUT
-
+	continue
     end
 
 end
