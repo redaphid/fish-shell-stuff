@@ -7,12 +7,12 @@ function zfs-allow-all --description 'allows <user> all permissions to <dataset>
     for line in (zfs allow 2>&1)
 	echo $line | grep -q 'NAME'; and set found_beginning "true"
 	set -q found_beginning[1]; or continue
-	echo $line | grep '[[:space:]]\(subcommand\|property\)[[:space:]]'; or continue
+	echo $line | grep -q '[[:space:]]\(subcommand\|property\)[[:space:]]'; or continue
         set perm (string split --no-empty ' ' $line)[1]
-	echo zfs allow -u $user $perm $dataset
-	string match -q -r '^y' $dry_run[1]; and continue
-	set perm (string split --no-empty ' ' $line)[1]
-	echo "perm" $perm
+	string match -q -r '^y' $dry_run[1]; and begin
+		echo zfs allow -u $user $perm $dataset
+		continue
+	end	
 	sudo zfs allow -u $user $perm $dataset
     end
 end
