@@ -8,7 +8,7 @@ function switch_monitor_input
 
         has_das; and begin
             echo "has das"
-            ssh mortal.local ddccontrol -r 0x60 dev:$MONITOR_INPUT 2>/dev/null | grep $MONITOR_INPUT; and continue
+            ssh mortal.local ddccontrol -r 0x60 dev:$MONITOR_INPUT 2>/dev/null | grep 15; and continue
             ssh mortal.local ddccontrol -r 0x60 -w 15 dev:$MONITOR_INPUT
             continue
         end
