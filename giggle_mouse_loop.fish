@@ -3,14 +3,10 @@ function giggle_mouse_loop --argument interval
     set old_mouse_location (xdotool getmouselocation)
     while true
         set new_mouse_location (xdotool getmouselocation)
-        echo $old_mouse_location $new_mouse_location
-        test "$old_mouse_location" = "$new_mouse_location"; and begin
-            echo "mouse location is the same"
-           set old_mouse_location $new_mouse_location
-           continue
-        end
-        echo "mouse location is different"
+        test "$old_mouse_location" = "$new_mouse_location"; or continue
+        echo "mouse was same. gotta giggle"
         set old_mouse_location $new_mouse_location
+        giggle_mouse
         sleep $interval
     end
     
