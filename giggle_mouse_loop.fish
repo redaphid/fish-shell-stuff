@@ -7,9 +7,9 @@ function giggle_mouse_loop --argument interval
         echo "$old_mouse_location = $new_mouse_location"
         test "$old_mouse_location" = "$new_mouse_location"; or begin
             set old_mouse_location $new_mouse_location
-            echo "mouse was not equal"
             continue
         end
+        notify-send "jiggle time"
         echo "mouse was same. gotta giggle"
         giggle_mouse
     end
