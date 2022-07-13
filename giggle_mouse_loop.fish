@@ -9,7 +9,6 @@ function giggle_mouse_loop --argument interval
             set old_mouse_location $new_mouse_location
             continue
         end
-        notify-send "jiggle time"
         echo "mouse was same. gotta giggle"
         giggle_mouse
     end
