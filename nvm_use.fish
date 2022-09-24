@@ -1,6 +1,6 @@
 function nvm_use --on-variable PWD
 		type -q nvm; or return
-		type -q node; or nvm use
+		type -q node; or nvm use; or nvm use latest
 		set prev_node_version (node --version)
 		nvm use --silent
 		set new_node_version (node --version)
