@@ -5,6 +5,9 @@ function gpo --description 'Pushes current branch to the specified origin. Usefu
         echo "e.g. gpo redaphid"
         return
     end
-    set -q save[1]; and set extra_options set extra_options ('--set-upstream $repo_name')
-    git push $extra_potions $repo_name (git branch --show-current)
+    set -q save[1]; and begin
+        git push --set-upstream $repo_name (git branch --show-current)
+        return 0
+    end
+    git push $repo_name (git branch --show-current)
 end
