@@ -31,3 +31,11 @@ function init-project -a project_type -a repo_name -a private -a source_repo -a 
     return 1
   end
 end
+function _init-project-completion
+  #check to see if we're completing the first argument
+  set -l tokens (commandline -co)
+  # if there are no tokens, we're completing the first argument
+  test (count $tokens) -eq 1; or return
+  init-project-list
+end
+complete -c init-project -f -a "(_init-project-completion)"
