@@ -1,26 +1,12 @@
-function typescript-init-project
 #!/usr/bin/env fish
-function error_die -a msg
-  echo "Error "$msg; and exit -1
-end
-
-nvm use 16; or error_die "couldn't set nvm version"
-npm init; or error_die "couldn't npm init"
-npm install --save-dev jest typescript ts-jest @types/jest @types/node; or error_die "couldn't install dev dependencies"
-npx  ts-jest config:init; or error_die "couldn't init ts-jest"
-npx npm-add-script -k "test" -v "jest"
-tsconfig-get > ./tsconfig.json
-gitignore-get > ./.gitignore
-eslintrc-get > ./.eslintrc
-
-mkdir src
-touch src/index.ts
-touch src/index.test.ts
-
-echo "
-  test(\"Let's get things started\", ()=>{
-    expect(true).toBe(false)
-  })
-" > src/index.test.ts
-npm run test
+function typescript-init-project -a repo_name -a private
+  set -q repo_name[1]; or begin
+    echo "Usage: typescript-init-project <repo_name> [private]"
+    return 1
+  end
+  set -q private[1]; or set private "false"
+  set gh_repo_scope_flag (test $private = "true"; and echo "--private"; or echo "--public")
+  set boilerplate_source "git@github.com:redaphid/typescript-yarn3-esbuild-boilerplate.git"
+  set boilerplate_tag "boilerplate"
+  gh repo create $repo_name $gh_repo_scope_flag
 end
