@@ -45,7 +45,7 @@ function ros-functions-make-all-executable --argument directory
         end
         read --prompt-str "make $f executable? (y/n) " --line answer
         test $answer[1] = y; or continue
-	truncate --size 0 $f
+truncate --size 0 $f
         for l in $body
             echo $l >> $f
         end
