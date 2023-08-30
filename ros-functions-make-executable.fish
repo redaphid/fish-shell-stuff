@@ -1,4 +1,3 @@
-#!/usr/bin/env fish
 function ros-functions-make-executable --argument directory
     set -q directory[1]; or set -l directory $ROS_FUNCTION_LOCATION
     set -q directory[1]; or begin
@@ -52,4 +51,3 @@ function ros-functions-make-executable --argument directory
         end
     end
 end
-status is-interactive; or 'ros-functions-make-executable'  $argv
