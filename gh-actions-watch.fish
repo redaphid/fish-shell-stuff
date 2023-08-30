@@ -1,3 +1,4 @@
+#!/usr/bin/env fish
 function gh-actions-watch
 
  while true
@@ -5,3 +6,4 @@ function gh-actions-watch
  sleep 1
  end
 end
+status is-interactive; or 'gh-actions-watch'  $argv

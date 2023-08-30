@@ -1,3 +1,4 @@
+#!/usr/bin/env fish
 function bak --description 'renames a <file | folder> to <file | folder>.bak . the -u flag undoes this'
   argparse "u/undo" -- $argv
   set file $argv[1]
@@ -28,3 +29,4 @@ function bak --description 'renames a <file | folder> to <file | folder>.bak . t
   set new_file (string join "." "$file.bak")
   mv "$file" "$new_file"
 end
+status is-interactive; or 'bak'  $argv

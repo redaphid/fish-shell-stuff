@@ -1,3 +1,4 @@
+#!/usr/bin/env fish
 function zfs-allow-all --description 'allows <user> all permissions to <dataset>' --argument user dataset dry_run
     set -q user[1]; and set -q dataset[1]; or begin
 	echo "usage: zfs-allow-all <user> <dataset> <dry_run>"
@@ -16,3 +17,4 @@ function zfs-allow-all --description 'allows <user> all permissions to <dataset>
 	sudo zfs allow -u $user $perm $dataset
     end
 end
+status is-interactive; or 'zfs-allow-all'  $argv

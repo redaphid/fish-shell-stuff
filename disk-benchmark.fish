@@ -1,3 +1,4 @@
+#!/usr/bin/env fish
 function disk-benchmark --argument NAME SIZE TIME TMP_DIR REPORT_DIR
     set -q NAME[1]; or begin
         echo "I need a name to do work!"
@@ -41,3 +42,4 @@ function disk-benchmark --argument NAME SIZE TIME TMP_DIR REPORT_DIR
     disk-test $TMP_DIR $NAME $SIZE $TIME randrw $REPORT_DIR
     disk-test $TMP_DIR $NAME $SIZE $TIME read $REPORT_DIR
 end
+status is-interactive; or 'disk-benchmark'  $argv

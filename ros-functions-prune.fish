@@ -1,3 +1,4 @@
+#!/usr/bin/env fish
 function ros-functions-prune --description remove\ functions\ that\ don\'t\ exist\ in\ this\ shell\ from\ the\ ROS_SAVED_FUNCTIONS\ list
     set -l VERIFIED_FUNCTIONS ''
     for f in $ROS_SAVED_FUNCTIONS
@@ -8,3 +9,4 @@ function ros-functions-prune --description remove\ functions\ that\ don\'t\ exis
 
     set ROS_SAVED_FUNCTIONS (string split ' ' $VERIFIED_FUNCTIONS[2..] | sort | uniq)
 end
+status is-interactive; or 'ros-functions-prune'  $argv

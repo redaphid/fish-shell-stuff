@@ -1,3 +1,4 @@
+#!/usr/bin/env fish
 function docker-install
  sudo apt-get remove docker docker-engine docker.io containerd runc
  sudo apt update 
@@ -12,3 +13,4 @@ sudo  mkdir -p /etc/apt/keyrings
  sudo apt update 
  sudo apt install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
 end
+status is-interactive; or 'docker-install'  $argv

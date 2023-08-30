@@ -1,3 +1,4 @@
+#!/usr/bin/env fish
 function monitor-switch-input --argument monitor
     set -q monitor[1]; or set -l monitor $MONITOR_INPUT
     while true
@@ -21,3 +22,4 @@ function monitor-switch-input --argument monitor
     end
 
 end
+status is-interactive; or 'monitor-switch-input'  $argv

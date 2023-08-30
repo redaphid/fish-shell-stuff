@@ -1,3 +1,4 @@
+#!/usr/bin/env fish
 function hostname_color_text
 	type -q pastel; or begin
 		echo "pastel isn't installed. no colors for you"
@@ -9,3 +10,4 @@ return
 	set_color -b (hostname_color)
 	set_color (pastel format hex (pastel textcolor (hostname_color)))
 end
+status is-interactive; or 'hostname_color_text'  $argv

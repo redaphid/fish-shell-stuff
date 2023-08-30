@@ -1,3 +1,4 @@
+#!/usr/bin/env fish
 function dangerload --description dangerously\ sources\ whatever\'s\ in\ ./scripts/dangerload.fish --on-variable PWD
     set include_file ./scripts/dangerload.fish
     dangerunload    
@@ -43,3 +44,4 @@ $old_func_footer
         eval $new_func
     end
 end
+status is-interactive; or 'dangerload'  $argv

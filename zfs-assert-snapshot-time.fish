@@ -1,3 +1,4 @@
+#!/usr/bin/env fish
 function zfs-assert-snapshot-time --argument dataset max_age
 
     set -q dataset[1]; or set dataset $ROS_ZFS_DATASET_TO_CHECK
@@ -27,3 +28,4 @@ function zfs-assert-snapshot-time --argument dataset max_age
     set how_long_since_snap (math "$now_epoch - $latest_snapshot_time")
     return (test $how_long_since_snap -le $max_age)
 end
+status is-interactive; or 'zfs-assert-snapshot-time'  $argv
