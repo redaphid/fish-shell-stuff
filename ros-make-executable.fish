@@ -1,4 +1,3 @@
-#!/usr/bin/env fish
 function ros-make-executable
     set file_name $argv[1]
 
@@ -20,7 +19,7 @@ function ros-make-executable
     end
 
     # Check if the last line is missing, add it
-    set expected_last_line "status is-interactive; or $base_name  \$argv"
+    set expected_last_line "status is-interactive; or $base_name \$argv"
     if not contains -- "$last_line" "$expected_last_line"
         echo "$expected_last_line" >>$file_name
         echo "Added last line to '$file_name'."
@@ -30,4 +29,3 @@ function ros-make-executable
     chmod +x $file_name
     echo "Made '$file_name' executable."
 end
-status is-interactive; or ros-make-executable $argv
