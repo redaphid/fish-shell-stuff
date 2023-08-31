@@ -3,7 +3,7 @@ function ros-make-executable
     set file_name $argv[1]
 
     # Extract the file name without the .fish prefix
-    set base_name (string replace -r '\.fish$' '' $file_name)
+    set base_name (string replace -ra '\.fish$' '' $file_name)
 
     # Read the first line of the file
     set first_line (head -n 1 $file_name)
