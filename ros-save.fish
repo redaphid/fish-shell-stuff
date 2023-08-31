@@ -1,4 +1,3 @@
-#!/usr/bin/env fish
 function ros-save
     set -q save_dir[1]; or set save_dir $ROS_FUNCTION_LOCATION
     set -q save_dir[1]; or begin
@@ -22,6 +21,7 @@ function ros-save
     for f in $fns
         funcsave --directory $save_dir "$f"
         git add "$f.fish"
+        ros-make-executable "$f.fish"
         set -Ua ROS_SAVED_FUNCTIONS $f
     end
     git commit -m "functions: $fns"
@@ -29,4 +29,3 @@ function ros-save
     set -U ROS_SAVED_FUNCTIONS (string collect $ROS_SAVED_FUNCTIONS | sort | uniq)
     popd
 end
-status is-interactive; or 'ros-save'  $argv
