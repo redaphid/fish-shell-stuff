@@ -1,4 +1,3 @@
-#!/usr/bin/env fish
 function bitcoin-address-checksum --description 'verifies that the string is a bitcoin address' --argument addr
 	decho "~"
 	decho
@@ -59,4 +58,3 @@ function bitcoin-address-checksum --description 'verifies that the string is a b
 
 	return 0
 end
-status is-interactive; or 'bitcoin-address-checksum'  $argv
