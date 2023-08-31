@@ -1,4 +1,3 @@
-#!/usr/bin/env fish
 function decho --wraps=echo --description 'echo to stderr'
     isatty stdin; or begin
         cat - | while read -l line
@@ -8,4 +7,3 @@ function decho --wraps=echo --description 'echo to stderr'
     end
     echo $argv 1>&2
 end
-status is-interactive; or 'decho'  $argv
