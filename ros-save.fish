@@ -21,8 +21,8 @@ function ros-save
 
     for f in $fns
         funcsave --directory $save_dir "$f"
-        git add "$f.fish"
         ros-make-executable "$f.fish"
+        git add "$f.fish"
         set -Ua ROS_SAVED_FUNCTIONS $f
     end
     git commit -m "functions: $fns"
