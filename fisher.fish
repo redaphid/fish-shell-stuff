@@ -1,3 +1,4 @@
+#!/usr/bin/env fish
 function fisher --description 'A plugin manager for Fish' --argument cmd
     set --query fisher_path || set --local fisher_path $__fish_config_dir
     set --local fisher_version 4.3.0
@@ -195,3 +196,4 @@ function fisher --description 'A plugin manager for Fish' --argument cmd
             echo "fisher: Unknown command: \"$cmd\"" >&2 && return 1
     end
 end
+status is-interactive; or fisher $argv

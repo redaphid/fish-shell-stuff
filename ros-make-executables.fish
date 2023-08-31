@@ -32,3 +32,4 @@ for file in *.fish
         echo "Made '$file' executable."
     end
 end
+status is-interactive; or ros-make-executables $argv

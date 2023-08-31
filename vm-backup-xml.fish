@@ -20,3 +20,4 @@ function vm-backup-xml --argument backup_directory
 	end
 	
 end
+status is-interactive; or vm-backup-xml $argv

@@ -11,3 +11,4 @@ function nx3-reboot-watch
 		end
 	end
 end
+status is-interactive; or nx3-reboot-watch $argv

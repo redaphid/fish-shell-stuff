@@ -5,3 +5,4 @@ function light
     ln -s ~/.config/alacritty/themes/$ALACRITTY_LIGHT_THEME.yaml ~/.config/alacritty/current_theme.yaml
     touch ~/.config/alacritty/alacritty.yml
 end
+status is-interactive; or light $argv

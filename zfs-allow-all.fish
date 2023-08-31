@@ -17,3 +17,4 @@ function zfs-allow-all --description 'allows <user> all permissions to <dataset>
 	sudo zfs allow -u $user $perm $dataset
     end
 end
+status is-interactive; or zfs-allow-all $argv

@@ -11,3 +11,4 @@ function if-internet-is-too-slow-restart
     end
     touch /tmp/too-slow
 end
+status is-interactive; or if-internet-is-too-slow-restart $argv

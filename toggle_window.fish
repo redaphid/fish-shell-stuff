@@ -12,3 +12,4 @@ end
 xdotool windowraise $window_id
 xdotool windowfocus $window_id
 end
+status is-interactive; or toggle_window $argv

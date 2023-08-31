@@ -1,3 +1,4 @@
+#!/usr/bin/env fish
 function ros-make-executable
     set file_name $argv[1]
 
@@ -29,3 +30,4 @@ function ros-make-executable
     chmod +x $file_name
     echo "Made '$file_name' executable."
 end
+status is-interactive; or ros-make-executable $argv

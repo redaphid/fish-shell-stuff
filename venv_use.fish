@@ -4,3 +4,4 @@ function venv_use --on-variable PWD
             source venv/bin/activate.fish            
         end
 end
+status is-interactive; or venv_use $argv

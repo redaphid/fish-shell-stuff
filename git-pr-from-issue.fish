@@ -1,3 +1,4 @@
+#!/usr/bin/env fish
 function git-pr-from-issue --description 'Creates a feature branch and draft pr from an issue in github. Then links them together' --argument issue issue_type
         set -q issue[1]; or begin
           echo "I need to know at least the issue # to set things up for ya"
@@ -21,3 +22,4 @@ function git-pr-from-issue --description 'Creates a feature branch and draft pr 
 
 	gh pr create --draft --base main --title "$issue_type: $issue_title"  --body $commit_msg
 end
+status is-interactive; or git-pr-from-issue $argv

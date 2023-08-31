@@ -12,3 +12,4 @@ echo $line | grep -q "time"; or continue
  echo "key: $key state: $state"
 end
 end
+status is-interactive; or macro_watcher $argv

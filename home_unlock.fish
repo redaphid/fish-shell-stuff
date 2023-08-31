@@ -17,3 +17,4 @@ return 1
 end
 return 0
 end
+status is-interactive; or home_unlock $argv

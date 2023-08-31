@@ -8,3 +8,4 @@ echo "making $f executable";
 chmod +x $f;
 end
 end
+status is-interactive; or ros-functions-change-file-perms $argv

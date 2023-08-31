@@ -10,3 +10,4 @@ function venv-by-convention --on-variable PWD --argument path
     end
     return 0
 end
+status is-interactive; or venv-by-convention $argv

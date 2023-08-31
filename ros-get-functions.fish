@@ -9,3 +9,4 @@ end
 echo $fn_header
 end
 end
+status is-interactive; or ros-get-functions $argv
