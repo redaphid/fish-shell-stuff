@@ -1,4 +1,3 @@
-#!/usr/bin/env fish
 function clock
     set cf (date '+%s')
     echo $cf
@@ -9,4 +8,3 @@ function clock
     end
     #trap 'echo date "+%s" >> ~/Documents/clock' INT
 end
-status is-interactive; or 'clock'  $argv
