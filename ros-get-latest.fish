@@ -10,4 +10,3 @@ function ros-get-latest
     git pull
     popd
 end
-status is-interactive; or 'ros-get-latest'  $argv

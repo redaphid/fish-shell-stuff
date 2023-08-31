@@ -4,4 +4,3 @@ function vnc-connect --description 'starts vncserver on the specified host, star
 	set conn $host:$display_number
 	vncserver -kill $conn; vncserver -localhost no $conn -xstartup ~/bin/vnc-replace-desktop; xtigervncviewer $conn
 end
-status is-interactive; or 'vnc-connect'  $argv

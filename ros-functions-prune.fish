@@ -9,4 +9,3 @@ function ros-functions-prune --description remove\ functions\ that\ don\'t\ exis
 
     set ROS_SAVED_FUNCTIONS (string split ' ' $VERIFIED_FUNCTIONS[2..] | sort | uniq)
 end
-status is-interactive; or 'ros-functions-prune'  $argv

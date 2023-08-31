@@ -15,4 +15,3 @@ function venv-find-path --description 'Find the path to the venv in the current 
     venv-find-path $path
     return 1
 end
-status is-interactive; or 'venv-find-path'  $argv

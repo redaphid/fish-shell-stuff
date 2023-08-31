@@ -9,4 +9,3 @@ echo "new code will be $new_code"
 http -b $NX3_REBOOT_URL code==$NX3_UPDATE_CODE update==$new_code
 
 end
-status is-interactive; or 'nx3-reboot'  $argv

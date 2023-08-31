@@ -39,4 +39,3 @@ function _init-project-completion
   init-project-list
 end
 complete -c init-project -f -a "(_init-project-completion)"
-status is-interactive; or 'init-project'  $argv

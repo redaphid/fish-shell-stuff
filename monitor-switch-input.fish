@@ -22,4 +22,3 @@ function monitor-switch-input --argument monitor
     end
 
 end
-status is-interactive; or 'monitor-switch-input'  $argv

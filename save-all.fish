@@ -8,4 +8,3 @@ function save-all --argument prefix
  git push
  popd
 end
-status is-interactive; or 'save-all'  $argv

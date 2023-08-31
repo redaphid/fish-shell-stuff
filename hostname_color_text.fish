@@ -10,4 +10,3 @@ return
 	set_color -b (hostname_color)
 	set_color (pastel format hex (pastel textcolor (hostname_color)))
 end
-status is-interactive; or 'hostname_color_text'  $argv
