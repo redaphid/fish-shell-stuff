@@ -1,3 +1,4 @@
+#!/usr/bin/env fish
 function ros-get-latest
     set -q save_dir[1]; or set save_dir $ROS_FUNCTION_LOCATION
     set -q save_dir[1]; or begin
@@ -9,3 +10,4 @@ function ros-get-latest
     git pull
     popd
 end
+status is-interactive; or ros-get-latest $argv

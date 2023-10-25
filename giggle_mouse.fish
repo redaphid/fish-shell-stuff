@@ -1,3 +1,4 @@
+#!/usr/bin/env fish
 function giggle_mouse
    set pos_x (math --scale 0 (random)'/100')
    set pos_y (math --scale 0 (random)'/100')
@@ -11,3 +12,4 @@ function giggle_mouse
    end
                                                                 
 end
+status is-interactive; or giggle_mouse $argv

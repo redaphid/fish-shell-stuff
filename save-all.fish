@@ -1,3 +1,4 @@
+#!/usr/bin/env fish
 function save-all --argument prefix
  set -q $prefix[1]; or set prefix "redaphid-"
  for f in (functions | grep $prefix); funcsave $f; end
@@ -7,3 +8,4 @@ function save-all --argument prefix
  git push
  popd
 end
+status is-interactive; or save-all $argv

@@ -1,3 +1,4 @@
+#!/usr/bin/env fish
 function macro_watcher
 evtest /dev/input/event25 | while read line
 echo $line | grep -q "EV_KEY"; or continue
@@ -11,3 +12,4 @@ echo $line | grep -q "time"; or continue
  echo "key: $key state: $state"
 end
 end
+status is-interactive; or macro_watcher $argv

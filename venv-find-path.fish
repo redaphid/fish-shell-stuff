@@ -1,3 +1,4 @@
+#!/usr/bin/env fish
 function venv-find-path --description 'Find the path to the venv in the current directory or any of its parents' --argument path
     set -q path[1]; or begin
         set path $PWD
@@ -14,3 +15,4 @@ function venv-find-path --description 'Find the path to the venv in the current 
     venv-find-path $path
     return 1
 end
+status is-interactive; or venv-find-path $argv

@@ -1,3 +1,4 @@
+#!/usr/bin/env fish
 function nx3-reboot-watch
 	set -q NX3_REBOOT_TIMEOUT[1]; or set NX3_REBOOT_TIMEOUT 60
 	while true
@@ -10,3 +11,4 @@ function nx3-reboot-watch
 		end
 	end
 end
+status is-interactive; or nx3-reboot-watch $argv

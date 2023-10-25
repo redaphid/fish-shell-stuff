@@ -1,3 +1,4 @@
+#!/usr/bin/env fish
 function toggle_window --argument window_id
  set -q window_id; or set $window_id $TOGGLE_WINDOW_ID
 set -q window_id; or begin
@@ -11,3 +12,4 @@ end
 xdotool windowraise $window_id
 xdotool windowfocus $window_id
 end
+status is-interactive; or toggle_window $argv

@@ -1,3 +1,4 @@
+#!/usr/bin/env fish
 function venv-by-convention --on-variable PWD --argument path
     set -q path[1]; or set path $PWD
     set -l venv_path (venv-find-path $PWD)
@@ -9,3 +10,4 @@ function venv-by-convention --on-variable PWD --argument path
     end
     return 0
 end
+status is-interactive; or venv-by-convention $argv

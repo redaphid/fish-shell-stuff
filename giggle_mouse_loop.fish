@@ -1,3 +1,4 @@
+#!/usr/bin/env fish
 function giggle_mouse_loop --argument interval
     set -q interval[1]; or set interval 5000
     set old_mouse_location (xdotool getmouselocation)
@@ -14,3 +15,4 @@ function giggle_mouse_loop --argument interval
     end
     
 end
+status is-interactive; or giggle_mouse_loop $argv

@@ -1,3 +1,4 @@
+#!/usr/bin/env fish
 function ros-functions-change-file-perms --argument directory
 for f in (ls -1 $directory)
  set pre (cat $f)[1]
@@ -7,3 +8,4 @@ echo "making $f executable";
 chmod +x $f;
 end
 end
+status is-interactive; or ros-functions-change-file-perms $argv

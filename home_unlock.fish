@@ -1,3 +1,4 @@
+#!/usr/bin/env fish
 function home_unlock --description 'locks the lock at home' --argument sesame_token
 set -q sesame_token[1]; or set sesame_token $SESAME_API_TOKEN;
 set -q sesame_token[1]; or begin
@@ -16,3 +17,4 @@ return 1
 end
 return 0
 end
+status is-interactive; or home_unlock $argv

@@ -1,3 +1,4 @@
+#!/usr/bin/env fish
 function ros-get-functions --argument quiet
  for f in (functions)
 echo (functions -D $f) | grep -q 'redaphid'; or continue
@@ -8,3 +9,4 @@ end
 echo $fn_header
 end
 end
+status is-interactive; or ros-get-functions $argv
