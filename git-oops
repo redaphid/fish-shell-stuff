@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Check to see if the current was pushed up to remote previously. This is dependent
+# on git fetch not having been called with --prune yet. In the general case, we
+# expect the branch to no longer exist on remote, but for our local cache to not
+
+main(){
+  local new_branch old_branch git_root
+
+  new_branch="$1"
+  old_branch="$(git rev-parse --abbrev-ref HEAD)"
+  git_root="$(git rev-parse --show-toplevel)"
+
+  pushd "$git_root" \
+  && git switch --create "$new_branch" \
+  && git switch "$old_branch" \
+  && git reset --hard "origin/$old_branch" \
+  && git switch "$new_branch" \
+  && popd
+}
+main "$@"
