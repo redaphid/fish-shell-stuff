@@ -4,8 +4,8 @@ function venv-find-path --description 'Find the path to the venv in the current 
         set path $PWD
     end
     set path (realpath $path)
-    if test -d "$path/venv"
-        echo "$path/venv"
+    if test -d "$path/.venv"
+        echo "$path/.venv"
         return 0
     end
     if test "$path" = /
