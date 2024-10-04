@@ -1,3 +1,5 @@
+
+set config_file ~/.config/jump/aliases.yaml
 function jump
   test (count $argv) -eq 0; and begin
     echo "no path or shortcode specified" 1>&2
@@ -8,6 +10,7 @@ function jump
   echo "argv: $argv"
   #see if the first argument is a path
   if echo "$argv[1]" | grep -q "/"
+    echo "argv[1]: $argv[1]"
     echo "$argv[1] looks like a path, jumping there"
     __jump_path $argv[1]
     return
@@ -16,7 +19,7 @@ function jump
   # get the dir from the shortcode
   set -l dir (yq e ".$argv[1]" ~/.config/jump/aliases.yaml)
   echo "dir: $dir shortcode: $argv[1]"
-  __jump_shortcode $dir $argv[1]
+  __jump_path $dir $argv[1]
   return
 end
 
@@ -25,20 +28,29 @@ function __jump_nothing
   return
 end
 
-function __jump_path
-  echo "jump_path: $argv[1]"
-  set -l dir $argv[1]
+function __jump_path --argument-names dir shortcode
+  echo "jump_path: $dir $shortcode"
   test -d $dir; and begin
     echo "$dir exists, jumping there"
     pushd $dir
-    __jump_shortcode $dir
+    test -z $shortcode; and begin
+      #get shortcode from path by using yq to iterate over the config file's values for each key. If the value matches $dir, then set shortcode to the key.
+      set -l shortcode (yq e "to_entries | .[] | select(.value == \"$dir\") | .key" $config_file)
+      echo "shortcode: $shortcode"
+      test -z "$shortcode"; and begin
+        echo "no shortcode found for $dir"
+        __jump_shortcode $dir
+        return
+      end
+      return
+    end
     return
   end
 
   echo "Directory '$dir' doesn't exist. Create it? (y/yes or n/no)"
 
   read -l create
-  if "$create" = "n" or "$create" = "no"; return; end
+  if test "$create" = "n" or test "$create" = "no"; return; end
 
   if "$create" != "y" and "$create" != "yes"
     echo "Please enter 'y' or 'n'."
@@ -59,13 +71,12 @@ function __jump_path
 end
 
 function __jump_shortcode --argument-names dir shortcode
-  echo "dir: $dir shortcode: $shortcode"
+  echo "jump shortcode:dir: $dir shortcode: $shortcode"
   set -l dir_count (count $dir)
   test $dir_count -eq 0; and begin
     echo "I should at least have a dir to jump to" 1>&2
     return
   end
-  set -l config_file ~/.config/jump/aliases.yaml
 
   touch $config_file; or begin
     echo "Failed to create config file '$config_file'."
@@ -74,14 +85,9 @@ function __jump_shortcode --argument-names dir shortcode
   if test -z "$shortcode"
     echo "enter the shortcode for this directory:"
     read shortcode
-    set -l shortcode_count (count $shortcode)
-    echo "shortcode: $shortcode shortcode_count: $shortcode_count"
-    test $shortcode_count -eq 0; and begin
-      echo "you must specify a shortcode to jump to" 1>&2
-      __jump_shortcode $dir
-      return
-    end
-    echo "shortcode: $shortcode shortcode_count: $shortcode_count"
+    echo "you must specify a shortcode to jump to" 1>&2
+    __jump_shortcode $dir $shortcode
+    return
   end
 
   set old_path (yq e ".$shortcode" $config_file)
@@ -114,7 +120,9 @@ function __jump_shortcode --argument-names dir shortcode
 
   echo "updating $config_file with $shortcode -> $dir"
   #update the config file with the new directory
-  yq e -i ".$shortcode = \"$dir\"" $config_file
-  echo "$shortcode -> $dir ✅"
+  # get full path of dir
+  set -l full_dir (realpath $dir)
+  yq e -i ".$shortcode = \"$full_dir\"" $config_file
+  echo "$shortcode -> $full_dir ✅"
   return
 end
