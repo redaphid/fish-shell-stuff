@@ -41,13 +41,14 @@ function ov --description 'Manage overlay git repositories stored in ~/.ov/repo/
             echo "Commands:"
             echo "  list                     List all overlay repositories"
             echo "  delete <repo-name>       Delete an overlay repository"
-            echo "  <repo-name> <git-cmd>    Run git command on repository"
+            echo "  <repo-name> <command>    Run git or gh command on repository"
             echo ""
             echo "Examples:"
             echo "  ov list"
             echo "  ov delete old-repo"
             echo "  ov claude status"
             echo "  ov claude add file.txt"
+            echo "  ov claude repo view --web"
             echo ""
             echo "Setup: ov-setup <repo-name> <git-url>"
             return 0
@@ -74,7 +75,15 @@ function ov --description 'Manage overlay git repositories stored in ~/.ov/repo/
         return 1
     end
     
-    # Run git command with overlay configuration
-    /usr/bin/git --git-dir="$repo_path" --work-tree="$HOME" $argv[2..]
+    # Set git environment variables for overlay configuration
+    set -lx GIT_DIR "$repo_path"
+    set -lx GIT_WORK_TREE "$HOME"
+    
+    # Use gh if available, fallback to git
+    if command -v gh >/dev/null 2>&1
+        gh $argv[2..]
+    else
+        /usr/bin/git $argv[2..]
+    end
 end
 status is-interactive; or ov $argv
