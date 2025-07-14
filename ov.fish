@@ -79,11 +79,24 @@ function ov --description 'Manage overlay git repositories stored in ~/.ov/repo/
     set -lx GIT_DIR "$repo_path"
     set -lx GIT_WORK_TREE "$HOME"
     
-    # Use gh if available, fallback to git
-    if command -v gh >/dev/null 2>&1
-        gh $argv[2..]
-    else
-        /usr/bin/git $argv[2..]
+    # Extract the git command
+    set cmd $argv[2]
+    
+    # Route commands appropriately - use git for core git operations
+    switch $cmd
+        case add am archive bisect branch bundle checkout cherry-pick clean clone commit \
+             describe diff fetch format-patch gc grep init log maintenance merge mv notes \
+             pull push range-diff rebase reset restore rm show stash status switch tag \
+             worktree
+            # Always use git for core git operations
+            /usr/bin/git $argv[2..]
+        case '*'
+            # Try gh first for GitHub-specific commands, fallback to git
+            if command -v gh >/dev/null 2>&1
+                gh $argv[2..]; or /usr/bin/git $argv[2..]
+            else
+                /usr/bin/git $argv[2..]
+            end
     end
 end
 status is-interactive; or ov $argv
