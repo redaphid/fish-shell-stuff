@@ -7,18 +7,14 @@ function jump
     return
   end
 
-  echo "argv: $argv"
   #see if the first argument is a path
   if echo "$argv[1]" | grep -q "/"
-    echo "argv[1]: $argv[1]"
-    echo "$argv[1] looks like a path, jumping there"
     __jump_path $argv[1]
     return
   end
 
   # get the dir from the shortcode
   set -l dir (yq e ".$argv[1]" ~/.config/jump/aliases.yaml)
-  echo "dir: $dir shortcode: $argv[1]"
   __jump_path $dir $argv[1]
   return
 end
@@ -29,16 +25,12 @@ function __jump_nothing
 end
 
 function __jump_path --argument-names dir shortcode
-  echo "jump_path: $dir $shortcode"
   test -d $dir; and begin
-    echo "$dir exists, jumping there"
     pushd $dir
     test -z $shortcode; and begin
       #get shortcode from path by using yq to iterate over the config file's values for each key. If the value matches $dir, then set shortcode to the key.
       set -l shortcode (yq e "to_entries | .[] | select(.value == \"$dir\") | .key" $config_file)
-      echo "shortcode: $shortcode"
       test -z "$shortcode"; and begin
-        echo "no shortcode found for $dir"
         __jump_shortcode $dir
         return
       end
@@ -71,7 +63,6 @@ function __jump_path --argument-names dir shortcode
 end
 
 function __jump_shortcode --argument-names dir shortcode
-  echo "jump shortcode:dir: $dir shortcode: $shortcode"
   set -l dir_count (count $dir)
   test $dir_count -eq 0; and begin
     echo "I should at least have a dir to jump to" 1>&2
@@ -91,7 +82,6 @@ function __jump_shortcode --argument-names dir shortcode
   end
 
   set old_path (yq e ".$shortcode" $config_file)
-  echo "old_path: $old_path"
   if test "$old_path" = "null"
     echo "shortcode was empty, setting it"
     #update the config file with the new directory
@@ -103,7 +93,6 @@ function __jump_shortcode --argument-names dir shortcode
   if test "$dir" = "$old_path"
     return
   end
-  echo "old_path: $old_path dir: $dir"
 
   echo "Do you want to overwrite it? (y/yes or n/no)"
   read -l overwrite
@@ -118,7 +107,6 @@ function __jump_shortcode --argument-names dir shortcode
     return
   end
 
-  echo "updating $config_file with $shortcode -> $dir"
   #update the config file with the new directory
   # get full path of dir
   set -l full_dir (realpath $dir)
