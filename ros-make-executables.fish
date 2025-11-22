@@ -1,5 +1,6 @@
 #!/usr/bin/env fish
 
+function ros-make-executables
 # Iterate over all .fish files in the current directory
 for file in *.fish
     if [ -f $file ]
@@ -31,5 +32,6 @@ for file in *.fish
         chmod +x $file
         echo "Made '$file' executable."
     end
+end
 end
 status is-interactive; or ros-make-executables $argv

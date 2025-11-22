@@ -45,3 +45,18 @@ nvm*
 fish_prompt.fish
 __z
 __z*
+sibi/
+
+# Environment and secrets #
+###########################
+.env
+.env.*
+!.env.example
+.dev.vars
+.dev.vars.*
+!.dev.vars.example
+
+# Dependencies #
+################
+node_modules/
+vendor/
