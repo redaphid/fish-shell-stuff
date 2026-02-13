@@ -1,7 +1,8 @@
-function worktree --description 'Create or switch to a git worktree with pnpm install' --argument branch
-    # Validate branch name
+function worktree --description 'Create or switch to a git worktree with pnpm install' --argument branch action
+    # Validate arguments
     set -q branch[1]; or begin
-        echo "Usage: worktree <branch>" >&2
+        echo "Usage: worktree <branch> [cleanup]" >&2
+        echo "       worktree list" >&2
         return 1
     end
 
@@ -11,9 +12,30 @@ function worktree --description 'Create or switch to a git worktree with pnpm in
         return 1
     end
 
+    # Handle list subcommand
+    if test "$branch" = list
+        git worktree list
+        return $status
+    end
+
     # Get the project name from the repo root directory
     set project_name (basename (git rev-parse --show-toplevel))
     set worktree_path "$HOME/Worktrees/$project_name/$branch"
+
+    # Handle cleanup subcommand
+    if test "$action" = cleanup
+        if not test -d "$worktree_path"
+            echo "No worktree found at $worktree_path" >&2
+            return 1
+        end
+        # If we're inside the worktree, leave it first
+        if string match -q "$worktree_path*" (pwd)
+            popd 2>/dev/null; or cd (git rev-parse --show-toplevel 2>/dev/null; or echo $HOME)
+        end
+        git worktree remove "$worktree_path"
+        echo "Worktree removed (branch '$branch' preserved)"
+        return $status
+    end
 
     # Check if the worktree already exists at that path
     if test -d "$worktree_path"
