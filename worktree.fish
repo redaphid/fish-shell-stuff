@@ -5,7 +5,7 @@ function worktree --description 'Create or switch to a git worktree with pnpm in
     set -q branch[1]; or begin
         echo "Usage: worktree <branch> [cleanup]" >&2
         echo "       worktree list" >&2
-        echo "       worktree cleanup --merged [--dry-run]" >&2
+        echo "       worktree cleanup [--merged [--dry-run]]" >&2
         return 1
     end
 
@@ -21,7 +21,7 @@ function worktree --description 'Create or switch to a git worktree with pnpm in
         return $status
     end
 
-    # Handle cleanup --merged subcommand
+    # Handle cleanup subcommand
     if test "$branch" = cleanup
         set -l merged false
         set -l dry_run false
@@ -33,14 +33,45 @@ function worktree --description 'Create or switch to a git worktree with pnpm in
                     set dry_run true
                 case '*'
                     echo "Unknown flag: $arg" >&2
-                    echo "Usage: worktree cleanup --merged [--dry-run]" >&2
+                    echo "Usage: worktree cleanup [--merged [--dry-run]]" >&2
                     return 1
             end
         end
 
+        # No flags: clean up the current worktree
         if test "$merged" = false
-            echo "Usage: worktree cleanup --merged [--dry-run]" >&2
-            return 1
+            set -l current_wt (pwd)
+            # Find the main worktree (the bare/main checkout)
+            set -l main_wt ""
+            for line in (git worktree list --porcelain)
+                if string match -q "worktree *" $line
+                    set main_wt (string replace "worktree " "" $line)
+                    break
+                end
+            end
+            # Check we're actually in a worktree (not the main checkout)
+            if test "$current_wt" = "$main_wt"
+                echo "Error: you're in the main worktree, not a linked worktree" >&2
+                return 1
+            end
+            # Verify current dir is a worktree
+            set -l found false
+            for line in (git worktree list --porcelain)
+                if string match -q "worktree $current_wt" $line
+                    set found true
+                    break
+                end
+            end
+            if test "$found" = false
+                echo "Error: current directory is not a worktree root" >&2
+                echo "cd to the root of your worktree first" >&2
+                return 1
+            end
+            set -l wt_branch (basename "$current_wt")
+            cd "$main_wt"
+            git worktree remove "$current_wt"
+            and echo "Worktree removed (branch '$wt_branch' preserved)"
+            return $status
         end
 
         set project_name (basename (git rev-parse --show-toplevel))
