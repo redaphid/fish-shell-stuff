@@ -68,10 +68,15 @@ function worktree --description 'Create or switch to a git worktree with pnpm in
                 return 1
             end
             set -l wt_branch (basename "$current_wt")
-            cd "$main_wt"
+            pushd "$main_wt"
             git worktree remove "$current_wt"
-            and echo "Worktree removed (branch '$wt_branch' preserved)"
-            return $status
+            if test $status -ne 0
+                echo "Error: failed to remove worktree (unmerged changes?)" >&2
+                popd
+                return 1
+            end
+            echo "Worktree removed (branch '$wt_branch' preserved)"
+            return 0
         end
 
         set project_name (basename (git rev-parse --show-toplevel))
@@ -96,10 +101,14 @@ function worktree --description 'Create or switch to a git worktree with pnpm in
                     else
                         # Leave the worktree if we're inside it
                         if string match -q "$wt_path*" (pwd)
-                            popd 2>/dev/null; or cd "$repo_root"
+                            pushd "$repo_root"
                         end
                         git worktree remove "$wt_path"
-                        and echo "Removed worktree for '$wt_branch' (PR merged, branch preserved)"
+                        if test $status -ne 0
+                            echo "Error: failed to remove worktree for '$wt_branch' (unmerged changes?)" >&2
+                            continue
+                        end
+                        echo "Removed worktree for '$wt_branch' (PR merged, branch preserved)"
                     end
                     set cleaned (math $cleaned + 1)
                 end
@@ -130,11 +139,16 @@ function worktree --description 'Create or switch to a git worktree with pnpm in
         end
         # If we're inside the worktree, leave it first
         if string match -q "$worktree_path*" (pwd)
-            popd 2>/dev/null; or cd (git rev-parse --show-toplevel 2>/dev/null; or echo $HOME)
+            pushd (git rev-parse --show-toplevel 2>/dev/null; or echo $HOME)
         end
         git worktree remove "$worktree_path"
+        if test $status -ne 0
+            echo "Error: failed to remove worktree (unmerged changes?)" >&2
+            popd 2>/dev/null
+            return 1
+        end
         echo "Worktree removed (branch '$branch' preserved)"
-        return $status
+        return 0
     end
 
     # Check if the worktree already exists at that path
