@@ -151,14 +151,21 @@ function worktree --description 'Create or switch to a git worktree with pnpm in
         return 0
     end
 
+    # Fetch latest from origin/main
+    echo "Fetching latest from origin/main..."
+    git fetch origin main
+
     # Check if the worktree already exists at that path
     if test -d "$worktree_path"
         echo "Worktree already exists at $worktree_path"
         pushd "$worktree_path"
-        return 0
+        echo "Merging latest origin/main..."
+        git merge origin/main
+        return $status
     end
 
     # Check if the branch exists (local or remote)
+    set -l is_new_branch false
     if git show-ref --verify --quiet "refs/heads/$branch"
         # Local branch exists
         git worktree add "$worktree_path" "$branch"
@@ -166,8 +173,9 @@ function worktree --description 'Create or switch to a git worktree with pnpm in
         # Remote branch exists, track it
         git worktree add "$worktree_path" "$branch"
     else
-        # Branch doesn't exist, create it
-        git worktree add -b "$branch" "$worktree_path"
+        # Branch doesn't exist, create from origin/main
+        set is_new_branch true
+        git worktree add -b "$branch" "$worktree_path" origin/main
     end
 
     or begin
@@ -176,6 +184,17 @@ function worktree --description 'Create or switch to a git worktree with pnpm in
     end
 
     pushd "$worktree_path"
+
+    # Merge latest origin/main into existing branches (skip for new branches already based on origin/main)
+    if test "$is_new_branch" = false
+        echo "Merging latest origin/main..."
+        git merge origin/main
+        or begin
+            echo "Warning: merge conflict with origin/main — resolve before continuing" >&2
+            return 1
+        end
+    end
+
     echo "Installing dependencies..."
     pnpm install
 end
