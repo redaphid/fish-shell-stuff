@@ -155,9 +155,28 @@ function worktree --description 'Create or switch to a git worktree with pnpm in
     echo "Fetching latest from origin/main..."
     git fetch origin main
 
-    # Check if the worktree already exists at that path
+    # Check if the branch is already checked out in any worktree
+    set -l existing_wt_path ""
+    set -l current_wt ""
+    for line in (git worktree list --porcelain)
+        if string match -q "worktree *" $line
+            set current_wt (string replace "worktree " "" $line)
+        else if string match -q "branch refs/heads/$branch" $line
+            set existing_wt_path $current_wt
+        end
+    end
+
+    if test -n "$existing_wt_path"
+        echo "Branch '$branch' already checked out at $existing_wt_path"
+        pushd "$existing_wt_path"
+        echo "Merging latest origin/main..."
+        git merge origin/main
+        return $status
+    end
+
+    # Check if the worktree directory already exists (orphaned)
     if test -d "$worktree_path"
-        echo "Worktree already exists at $worktree_path"
+        echo "Worktree directory exists at $worktree_path"
         pushd "$worktree_path"
         echo "Merging latest origin/main..."
         git merge origin/main
