@@ -89,13 +89,13 @@ function ov --description 'Manage overlay git repositories stored in ~/.ov/repo/
              pull push range-diff rebase reset restore rm show stash status switch tag \
              worktree
             # Always use git for core git operations
-            /usr/bin/git $argv[2..]
+            /usr/bin/git -c status.showUntrackedFiles=no $argv[2..]
         case '*'
             # Try gh first for GitHub-specific commands, fallback to git
             if command -v gh >/dev/null 2>&1
-                gh $argv[2..]; or /usr/bin/git $argv[2..]
+                gh $argv[2..]; or /usr/bin/git -c status.showUntrackedFiles=no $argv[2..]
             else
-                /usr/bin/git $argv[2..]
+                /usr/bin/git -c status.showUntrackedFiles=no $argv[2..]
             end
     end
 end
