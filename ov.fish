@@ -57,7 +57,7 @@ function ov --description 'Manage overlay git repositories stored in ~/.ov/repo/
             /usr/bin/git --git-dir="$new_repo_path" config --local status.showUntrackedFiles no
             echo "Repository '$new_repo' created. Use 'ov $new_repo status' to check status."
             return 0
-        case "help"
+        case "help" "--help" "-h"
             echo "Usage: ov <command> [args...]"
             echo ""
             echo "Commands:"
@@ -75,8 +75,7 @@ function ov --description 'Manage overlay git repositories stored in ~/.ov/repo/
             echo "  ov claude repo view --web"
             return 0
         case ""
-            echo "Usage: ov <command> [args...]"
-            echo "Run 'ov help' for more options"
+            ov help
             return 1
     end
     
